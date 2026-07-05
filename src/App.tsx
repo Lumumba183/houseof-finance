@@ -1,10 +1,24 @@
-import { Routes, Route } from 'react-router'
-import Home from './pages/Home'
+import { useEffect } from 'react';
+import { HashRouter, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
 
 export default function App() {
+  useEffect(() => {
+    document.documentElement.style.scrollBehavior = 'auto';
+    return () => {
+      document.documentElement.style.scrollBehavior = '';
+    };
+  }, []);
+
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-    </Routes>
-  )
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsOfService />} />
+      </Routes>
+    </HashRouter>
+  );
 }

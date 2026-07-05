@@ -48,6 +48,18 @@ module.exports = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        "deep-navy": "#032B43",
+        "rich-gold": "#A67C00",
+        "pale-gold": "#D4AF37",
+        "parchment": "#FAF6EB",
+        "warm-stone": "#C8C0B0",
+        "charcoal": "#1A1A2E",
+        "mist": "#E8E0D0",
+      },
+      fontFamily: {
+        display: ["'Playfair Display'", "serif"],
+        heading: ["'Space Grotesk'", "sans-serif"],
+        body: ["'DM Sans'", "sans-serif"],
       },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",
@@ -58,6 +70,7 @@ module.exports = {
       },
       boxShadow: {
         xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        card: "0 8px 32px rgba(0,0,0,0.08)",
       },
       keyframes: {
         "accordion-down": {
