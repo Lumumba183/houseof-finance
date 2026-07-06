@@ -34,6 +34,7 @@ export default function Contact() {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   // Gallery infinite scroll animation
   useEffect(() => {
@@ -91,7 +92,8 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Netlify form submission
+    setError('');
+
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
 
@@ -100,7 +102,10 @@ export default function Contact() {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams(formData as any).toString(),
     })
-      .then(() => {
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Submission failed: ${response.status} ${response.statusText}`);
+        }
         setSubmitted(true);
         setFormState({
           name: '',
@@ -110,8 +115,9 @@ export default function Contact() {
           message: '',
         });
       })
-      .catch((error) => {
-        console.error('Form submission error:', error);
+      .catch((err) => {
+        console.error('Form submission error:', err);
+        setError('Something went wrong. Please try again or contact us directly at solodesita2@gmail.com');
       });
   };
 
@@ -291,6 +297,12 @@ export default function Contact() {
                       <input name="bot-field" />
                     </label>
                   </p>
+
+                  {error && (
+                    <div className="bg-red-500/20 border border-red-500/50 text-red-200 p-4 rounded text-sm">
+                      {error}
+                    </div>
+                  )}
 
                   <div>
                     <label className="text-caption text-warm-stone mb-2 block">
