@@ -3,6 +3,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
+import WhatsAppButton from './components/WhatsAppButton';
 
 export default function App() {
   useEffect(() => {
@@ -14,6 +15,7 @@ export default function App() {
 
   return (
     <HashRouter>
+      <WhatsAppButton />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
