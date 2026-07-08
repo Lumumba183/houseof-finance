@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useForm, ValidationError } from '@formspree/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -33,8 +34,8 @@ export default function Contact() {
     serviceInterest: '',
     message: '',
   });
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState('');
+
+  const [state, handleSubmit] = useForm('mlgykord');
 
   // Gallery infinite scroll animation
   useEffect(() => {
@@ -89,37 +90,6 @@ export default function Contact() {
 
     return () => ctx.revert();
   }, []);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
-
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(formData as any).toString(),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Submission failed: ${response.status} ${response.statusText}`);
-        }
-        setSubmitted(true);
-        setFormState({
-          name: '',
-          email: '',
-          company: '',
-          serviceInterest: '',
-          message: '',
-        });
-      })
-      .catch((err) => {
-        console.error('Form submission error:', err);
-        setError('Something went wrong. Please try again or contact us directly at solodesita2@gmail.com');
-      });
-  };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -260,7 +230,7 @@ export default function Contact() {
 
             {/* Right - Form */}
             <div className="animate-in">
-              {submitted ? (
+              {state.succeeded ? (
                 <div className="bg-deep-navy/50 backdrop-blur-sm border border-rich-gold/30 p-8 text-center">
                   <svg
                     width="48"
@@ -283,24 +253,12 @@ export default function Contact() {
                 </div>
               ) : (
                 <form
-                  name="contact"
-                  method="POST"
-                  data-netlify="true"
-                  data-netlify-honeypot="bot-field"
                   onSubmit={handleSubmit}
                   className="space-y-8"
                 >
-                  <input type="hidden" name="form-name" value="contact" />
-                  <p style={{ display: 'none' }}>
-                    <label>
-                      Don&apos;t fill this out if you&apos;re human:{" "}
-                      <input name="bot-field" />
-                    </label>
-                  </p>
-
-                  {error && (
+                  {state.errors && (
                     <div className="bg-red-500/20 border border-red-500/50 text-red-200 p-4 rounded text-sm">
-                      {error}
+                      Something went wrong. Please try again or contact us directly at solodesita2@gmail.com
                     </div>
                   )}
 
@@ -385,9 +343,14 @@ export default function Contact() {
                     />
                   </div>
 
-                  <button type="submit" className="btn-primary w-full">
-                    Send Inquiry
+                  <button
+                    type="submit"
+                    disabled={state.submitting}
+                    className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {state.submitting ? 'Sending...' : 'Send Inquiry'}
                   </button>
+                  <ValidationError prefix="Email" field="email" errors={state.errors} />
                 </form>
               )}
             </div>
