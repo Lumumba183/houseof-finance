@@ -35,7 +35,7 @@ export default function Contact() {
     message: '',
   });
 
-  const [state, handleSubmit] = useForm('mlgykord');
+  const [state, handleSubmit] = useForm('maqggzjv');
 
   // Gallery infinite scroll animation
   useEffect(() => {
@@ -275,6 +275,11 @@ export default function Contact() {
                       className="form-input"
                       placeholder="Your full name"
                     />
+                    <ValidationError 
+                      prefix="Name" 
+                      field="name" 
+                      errors={state.errors} 
+                    />
                   </div>
 
                   <div>
@@ -290,6 +295,11 @@ export default function Contact() {
                       className="form-input"
                       placeholder="your@email.com"
                     />
+                    <ValidationError 
+                      prefix="Email" 
+                      field="email" 
+                      errors={state.errors} 
+                    />
                   </div>
 
                   <div>
@@ -303,6 +313,11 @@ export default function Contact() {
                       onChange={handleChange}
                       className="form-input"
                       placeholder="Your company name"
+                    />
+                    <ValidationError 
+                      prefix="Company" 
+                      field="company" 
+                      errors={state.errors} 
                     />
                   </div>
 
@@ -328,6 +343,11 @@ export default function Contact() {
                         Financial Infrastructure
                       </option>
                     </select>
+                    <ValidationError 
+                      prefix="Service Interest" 
+                      field="serviceInterest" 
+                      errors={state.errors} 
+                    />
                   </div>
 
                   <div>
@@ -338,8 +358,14 @@ export default function Contact() {
                       name="message"
                       value={formState.message}
                       onChange={handleChange}
+                      required
                       className="form-textarea"
                       placeholder="Tell us about your venture..."
+                    />
+                    <ValidationError 
+                      prefix="Message" 
+                      field="message" 
+                      errors={state.errors} 
                     />
                   </div>
 
@@ -350,7 +376,6 @@ export default function Contact() {
                   >
                     {state.submitting ? 'Sending...' : 'Send Inquiry'}
                   </button>
-                  <ValidationError prefix="Email" field="email" errors={state.errors} />
                 </form>
               )}
             </div>
